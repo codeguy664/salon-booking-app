@@ -1,43 +1,34 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
-import db from './config/db.js';
-
-// Import Routes
-import authRoutes from './routes/authRoutes.js';
-import salonRoutes from './routes/salonRoutes.js';
-import appointmentRoutes from './routes/appointmentRoutes.js';
-import barberRoutes from './routes/barberRoutes.js';
-
-dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Path setup for ESM modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ✅ Enable CORS for all origins (during development)
+app.use(cors());
 
 // Middleware
 app.use(express.json());
-app.use(cors());
 
-// Routes
+// Serve static files (frontend folder)
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+// Your routes (e.g. API)
+import authRoutes from './routes/authRoutes.js';
 app.use('/api/auth', authRoutes);
-app.use('/api/salons', salonRoutes);
-app.use('/api/appointments', appointmentRoutes);
-app.use('/api/barbers', barberRoutes);
 
-// Error Handling Middleware
-app.use((err, req, res, next) => {
-  console.error('❌ Error:', err.message);
-  res.status(500).json({ message: 'Internal Server Error' });
+// Fallback route to handle browser navigation (optional)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
-
-// Sync Database & Start Server
-db.sync({ force: true })
- // Keeps existing data, modifies tables safely
-  .then(() => {
-    app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
-  })
-  .catch((error) => {
-    console.error('❌ Database connection failed:', error);
-    process.exit(1); // Exit the app if database connection fails
-  });
+// Start server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
