@@ -1,34 +1,26 @@
 import express from 'express';
-import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Path setup for ESM modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ✅ Enable CORS for all origins (during development)
-app.use(cors());
+// Log path to check correctness
+console.log('Serving static from:', path.join(__dirname, 'frontend'));
 
-// Middleware
-app.use(express.json());
-
-// Serve static files (frontend folder)
+// Serve static files
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-// Your routes (e.g. API)
-import authRoutes from './routes/authRoutes.js';
-app.use('/api/auth', authRoutes);
-
-// Fallback route to handle browser navigation (optional)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+// Serve index.html manually
+app.get('/', (req, res) => {
+  const filePath = path.join(__dirname, 'frontend', 'login.html');
+  console.log('Trying to serve:', filePath);
+  res.sendFile(filePath);
 });
 
-// Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`Server is running at http://localhost:${PORT}`);
 });

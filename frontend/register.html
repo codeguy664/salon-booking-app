@@ -2,87 +2,71 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up</title>
+  <title>Register</title>
   <style>
-    /* Global Reset */
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Body */
     body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(to right, #ff7e5f, #feb47b);
+      background: linear-gradient(135deg, #74ebd5, #9face6);
       height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
-      color: #fff;
+      justify-content: center;
     }
 
     .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-    }
-
-    .form-box {
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 300px;
+      background: #ffffffdd;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 350px;
     }
 
     h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 24px;
+      margin-bottom: 25px;
       color: #333;
     }
 
-    /* Form Inputs */
     input {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      padding: 12px 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background-color: #f0f0f0;
       font-size: 16px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #ff7e5f;
     }
 
     button {
+      margin-top: 10px;
       width: 100%;
       padding: 12px;
-      background-color: #ff7e5f;
-      color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
+      background-color: #4a90e2;
+      color: white;
       font-size: 16px;
       cursor: pointer;
       transition: background-color 0.3s;
     }
 
     button:hover {
-      background-color: #feb47b;
+      background-color: #357ABD;
     }
 
     p {
-      text-align: center;
+      margin-top: 20px;
       font-size: 14px;
     }
 
     a {
-      color: #ff7e5f;
+      color: #4a90e2;
       text-decoration: none;
     }
 
@@ -93,16 +77,15 @@
 </head>
 <body>
   <div class="container">
-    <div class="form-box">
-      <h2>Sign Up</h2>
-      <form id="registerForm">
-        <input type="text" id="name" placeholder="Name" required><br>
-        <input type="email" id="email" placeholder="Email" required><br>
-        <input type="password" id="password" placeholder="Password" required><br>
-        <button type="submit">Register</button>
-      </form>
-      <p>Already have an account? <a href="index.html">Login here</a></p>
-    </div>
+    <h2>Create Your Account</h2>
+    <form id="registerForm">
+      <input type="text" id="name" placeholder="Full Name" required><br>
+      <input type="email" id="email" placeholder="Email" required><br>
+      <input type="password" id="password" placeholder="Password" required><br>
+      <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="login.html">Login here</a></p>
   </div>
 
   <script src="js/register.js"></script>

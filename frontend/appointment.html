@@ -2,32 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Book Haircut Appointment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Appointment</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #ece9e6, #ffffff);
       margin: 0;
       padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260') no-repeat center center/cover;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
     }
 
-    .container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
-      width: 90%;
+    .appointment-container {
+      background-color: rgba(255, 255, 255, 0.97);
+      padding: 35px;
+      border-radius: 18px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      width: 95%;
+      max-width: 600px;
+      animation: slideIn 0.5s ease-in-out;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     h2 {
       text-align: center;
       margin-bottom: 25px;
-      color: #333;
+      color: #222;
     }
 
     .form-group {
@@ -35,86 +42,190 @@
     }
 
     label {
-      font-weight: bold;
       display: block;
       margin-bottom: 8px;
+      font-weight: 600;
     }
 
-    input[type="date"],
-    input[type="time"] {
+    select,
+    input[type="date"] {
       width: 100%;
       padding: 10px;
-      border-radius: 8px;
+      font-size: 15px;
       border: 1px solid #ccc;
-      box-sizing: border-box;
+      border-radius: 8px;
+      outline: none;
     }
 
-    .salon-options {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .salon-options label {
-      font-weight: normal;
-      margin-bottom: 8px;
-    }
-
-    button {
+    .btn {
       width: 100%;
       padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background-color: #4caf50;
+      background-color: #4CAF50;
       color: white;
       font-size: 16px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: background-color 0.3s ease, transform 0.2s;
     }
 
-    button:hover {
-      background-color: #43a047;
+    .btn:hover {
+      background-color: #45a049;
+      transform: translateY(-1px);
+    }
+
+    .logout {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .logout a {
+      color: #4CAF50;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .logout a:hover {
+      text-decoration: underline;
+    }
+
+    iframe {
+      width: 100%;
+      height: 200px;
+      margin-top: 15px;
+      border-radius: 10px;
+      border: none;
+    }
+
+    .availability {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .slot-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .slot-group select {
+      flex: 1;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Book Your Haircut Appointment</h2>
+  <div class="appointment-container">
+    <h2>Book Your Appointment</h2>
     <form id="appointmentForm">
       <div class="form-group">
-        <label>Select Salon:</label>
-        <div class="salon-options">
-          <label><input type="radio" name="salon" value="Classic Cuts" required /> Classic Cuts</label>
-          <label><input type="radio" name="salon" value="Elite Styles" /> Elite Styles</label>
-          <label><input type="radio" name="salon" value="Urban Fadez" /> Urban Fadez</label>
-        </div>
+        <label for="salon">Select Salon</label>
+        <select id="salon" required onchange="updateMap(); checkAvailability();">
+          <option value="">--Choose a Salon--</option>
+          <option value="Elegant Cuts, Koramangala">Elegant Cuts - Koramangala</option>
+          <option value="Fade Nation, Indiranagar">Fade Nation - Indiranagar</option>
+          <option value="Beard Bros, Jayanagar">Beard Bros - Jayanagar</option>
+          <option value="Style Hub, Whitefield">Style Hub - Whitefield</option>
+          <option value="The Barber Co., MG Road">The Barber Co. - MG Road</option>
+        </select>
       </div>
+
       <div class="form-group">
-        <label for="date">Choose Date:</label>
-        <input type="date" id="date" name="date" required />
+        <label for="date">Choose Date</label>
+        <input type="date" id="date" required onchange="checkAvailability()" />
       </div>
+
       <div class="form-group">
-        <label for="time">Choose Time:</label>
-        <input type="time" id="time" name="time" required />
+        <label for="time">Choose Time Slot</label>
+        <select id="time" required>
+          <option value="">--Choose a Time--</option>
+          <optgroup label="Morning">
+            <option value="09:00">09:00 AM</option>
+            <option value="10:00">10:00 AM</option>
+            <option value="11:00">11:00 AM</option>
+          </optgroup>
+          <optgroup label="Afternoon">
+            <option value="13:00">01:00 PM</option>
+            <option value="14:00">02:00 PM</option>
+            <option value="15:00">03:00 PM</option>
+          </optgroup>
+          <optgroup label="Evening">
+            <option value="17:00">05:00 PM</option>
+            <option value="18:00">06:00 PM</option>
+          </optgroup>
+        </select>
       </div>
-      <button type="submit">Book Appointment</button>
+
+      <div class="availability" id="availability"></div>
+
+      <button type="submit" class="btn">Book Appointment</button>
     </form>
+
+    <iframe id="map" src="" loading="lazy" allowfullscreen></iframe>
+
+    <div class="logout">
+      <p><a onclick="logout()">Logout</a></p>
+    </div>
   </div>
 
   <script>
+    // ✅ Authentication check
+    if (!localStorage.getItem('userLoggedIn') || !localStorage.getItem('token')) {
+      window.location.href = "login.html";
+    }
+
+    // ✅ Google Map Embed Links
+    const salonMapLinks = {
+      "Elegant Cuts, Koramangala": "https://www.google.com/maps?q=Elegant+Cuts+Koramangala+Bangalore&output=embed",
+      "Fade Nation, Indiranagar": "https://www.google.com/maps?q=Fade+Nation+Indiranagar+Bangalore&output=embed",
+      "Beard Bros, Jayanagar": "https://www.google.com/maps?q=Beard+Bros+Jayanagar+Bangalore&output=embed",
+      "Style Hub, Whitefield": "https://www.google.com/maps?q=Style+Hub+Whitefield+Bangalore&output=embed",
+      "The Barber Co., MG Road": "https://www.google.com/maps?q=The+Barber+Co+MG+Road+Bangalore&output=embed"
+    };
+
+    function updateMap() {
+      const selectedSalon = document.getElementById('salon').value;
+      const mapFrame = document.getElementById('map');
+      mapFrame.src = salonMapLinks[selectedSalon] || "";
+    }
+
+    function checkAvailability() {
+      const availability = document.getElementById('availability');
+      const salon = document.getElementById('salon').value;
+      const date = document.getElementById('date').value;
+      if (salon && date) {
+        const available = Math.random() > 0.2; // Simulated logic
+        availability.textContent = available ? "✅ Slot is available!" : "❌ Slot unavailable, try a different one.";
+        availability.style.color = available ? "green" : "red";
+      } else {
+        availability.textContent = "";
+      }
+    }
+
+    // ✅ Form Submit Logic
     document.getElementById('appointmentForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const salon = document.querySelector('input[name="salon"]:checked')?.value;
+      const salon = document.getElementById('salon').value;
       const date = document.getElementById('date').value;
       const time = document.getElementById('time').value;
+      const availability = document.getElementById('availability').textContent;
 
-      if (!salon || !date || !time) {
-        alert('Please fill in all fields.');
-        return;
+      if (salon && date && time && availability.includes("available")) {
+        alert(`🎉 Appointment booked at ${salon} on ${date} at ${time}`);
+        this.reset();
+        document.getElementById('map').src = '';
+        document.getElementById('availability').textContent = '';
+      } else {
+        alert("❌ Please ensure all fields are filled and the slot is available.");
       }
-
-      alert(`✅ Appointment booked at ${salon} on ${date} at ${time}`);
-      // Add fetch logic here if you want to send data to backend
     });
+
+    // ✅ Logout Logic
+    function logout() {
+      localStorage.removeItem('userLoggedIn');
+      localStorage.removeItem('token');
+      window.location.href = "login.html";
+    }
   </script>
 </body>
 </html>
